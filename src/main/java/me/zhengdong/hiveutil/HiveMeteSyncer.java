@@ -9,14 +9,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class HiveMetaFetcher {
+public class HiveMeteSyncer {
     boolean dryRun = false;
 
     private List<DBInfo> dbs;
     private List<TBLInfo> tbls;
     private List<COLInfo> cols;
 
-    public HiveMetaFetcher() {
+    public HiveMeteSyncer() {
         dbs = new ArrayList<DBInfo>();
         tbls = new ArrayList<TBLInfo>();
         cols = new ArrayList<COLInfo>();
@@ -70,8 +70,8 @@ public class HiveMetaFetcher {
             return true;
         }
 
-        private HiveMetaFetcher getOuterType() {
-            return HiveMetaFetcher.this;
+        private HiveMeteSyncer getOuterType() {
+            return HiveMeteSyncer.this;
         }
     }
 
@@ -132,8 +132,8 @@ public class HiveMetaFetcher {
             return true;
         }
 
-        private HiveMetaFetcher getOuterType() {
-            return HiveMetaFetcher.this;
+        private HiveMeteSyncer getOuterType() {
+            return HiveMeteSyncer.this;
         }
     }
 
@@ -199,8 +199,8 @@ public class HiveMetaFetcher {
             return true;
         }
 
-        private HiveMetaFetcher getOuterType() {
-            return HiveMetaFetcher.this;
+        private HiveMeteSyncer getOuterType() {
+            return HiveMeteSyncer.this;
         }
     }
 
@@ -322,17 +322,17 @@ public class HiveMetaFetcher {
                 previousColExported.add(col);
             }
 
-            Collection<DBInfo> dbsShouldAdd = HiveMetaFetcher.substract(
+            Collection<DBInfo> dbsShouldAdd = HiveMeteSyncer.substract(
                     this.dbs, previousDbExported);
-            Collection<DBInfo> dbsShouldDel = HiveMetaFetcher.substract(
+            Collection<DBInfo> dbsShouldDel = HiveMeteSyncer.substract(
                     previousDbExported, this.dbs);
-            Collection<TBLInfo> tblsShouldAdd = HiveMetaFetcher.substract(
+            Collection<TBLInfo> tblsShouldAdd = HiveMeteSyncer.substract(
                     this.tbls, previousTblExported);
-            Collection<TBLInfo> tblsShouldDel = HiveMetaFetcher.substract(
+            Collection<TBLInfo> tblsShouldDel = HiveMeteSyncer.substract(
                     previousTblExported, this.tbls);
-            Collection<COLInfo> colsShouldAdd = HiveMetaFetcher.substract(
+            Collection<COLInfo> colsShouldAdd = HiveMeteSyncer.substract(
                     this.cols, previousColExported);
-            Collection<COLInfo> colsShouldDel = HiveMetaFetcher.substract(
+            Collection<COLInfo> colsShouldDel = HiveMeteSyncer.substract(
                     previousColExported, this.cols);
 
             String dbInsertSql = "INSERT INTO hivemeta_database VALUES";
@@ -378,18 +378,18 @@ public class HiveMetaFetcher {
 
     private static void printUsage() {
         System.out
-                .println("usage: HiveMetaFetcher [--dry-run] from_hive_url "
+                .println("usage: HiveMeteSyncer [--dry-run] from_hive_url "
                         + "hive_metastore_user hive_metastore_user_passwd to_mysql_url "
                         + "mysql_user mysql_user_passwd");
         System.out.println(
-                "example: HiveMetaFetcher 172.19.0.109:4306/metastore " +
+                "example: HiveMeteSyncer 172.19.0.109:4306/metastore " +
                         "hiveuser hivepassword 172.19.0.109:4306/mysql username password \n" +
-                "         java -jar target/hivemeta_exporter-1.0-jar-with-dependencies.jar 172.19.0.109:4306/metastore " +
+                "         java -jar target/hivemeta-syncer-1.0-jar-with-dependencies.jar 172.19.0.109:4306/metastore " +
                         "hiveuser hivepassword 172.19.0.109:4306/mysql username password");
     }
 
     public static void main(String args[]) {
-        HiveMetaFetcher fetcher = new HiveMetaFetcher();
+        HiveMeteSyncer fetcher = new HiveMeteSyncer();
 
         if (args.length == 7 && args[0].compareToIgnoreCase("--dry-run") == 0) {
             fetcher.dryRun = true;

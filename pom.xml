@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>hivemeta_exporter</groupId>
-    <artifactId>hivemeta_exporter</artifactId>
+    <groupId>hivemeta-syncer</groupId>
+    <artifactId>hivemeta-syncer</artifactId>
     <version>1.0</version>
 
     <dependencies>
@@ -23,7 +23,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>me.zhengdong.hiveutil.HiveMetaFetcher</mainClass>
+                            <mainClass>me.zhengdong.hiveutil.HiveMeteSyncer</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
